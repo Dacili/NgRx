@@ -8,18 +8,32 @@ import { AppComponent } from './app.component';
 import { FeedComponent } from './feed/feed.component';
 import { GroupFeedComponent } from './group-feed/group-feed.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { reducers, counterReducer, mediFeatureKey, userFeatureKey, performLoginReducer } from '../reducers';
 
 @NgModule({
   declarations: [
     AppComponent,
-    
     FeedComponent,
     GroupFeedComponent
     
   ],
   imports: [
-    BrowserModule, HttpClientModule, RouterModule, AppRoutingModule, FormsModule
+    BrowserModule,
+    HttpClientModule,
+    RouterModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forRoot({}), // this has to be set up as default
+    //StoreModule.forFeature('Medi', reducers),
+    StoreModule.forFeature(mediFeatureKey, counterReducer),
+    StoreModule.forFeature(userFeatureKey, performLoginReducer),
+    //StoreModule.forRoot({ count: counterReducer })
+    //, StoreModule.forRoot(reducers, {
+    //  metaReducers
+    //})
 
   ],
   providers: [SignalRService],

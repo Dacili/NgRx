@@ -1,60 +1,55 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { decrement, increment, reset } from '../actions/counter.actions';
+import { loginUser } from '../actions/user.actions';
+import { AppState, CounterState, selectCount, selectUsername } from '../reducers';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  private hubConnectionBuilder!: HubConnection;
-  offers: any[] = [];
+export class AppComponent implements OnInit {
+  count$: Observable<any>;
+  loginForm = new FormGroup({
+    username: new FormControl(''),
+    pw: new FormControl('')
+  });
+  
 
   ngOnInit(): void {
-    this.hubConnectionBuilder = new HubConnectionBuilder().withUrl('https://localhost:7163/mediMessaging').configureLogging(LogLevel.Information).build();
-    this.hubConnectionBuilder.start().then(() => console.log('Connection started.......!')).catch(err => console.log('Error while connect with server'));
-    this.hubConnectionBuilder.on('SendMessagesToUser', (result: any) => {
-      this.offers.push(result);
-    });
-  }
-  public forecasts?: WeatherForecast[];
-  message = "";
-  constructor(private http: HttpClient) {
-    //http.get<WeatherForecast[]>('https://localhost:7163/weatherforecast').subscribe(result => {
-    //  this.forecasts = result;
-
-    //  console.log('weather succeed')
-    //}, error => console.error(error));
-    //http.get<any>('/MediFeed').subscribe(result => {
-    //  this.forecasts = result;
-    //}, error => console.error(error));
   }
 
-  title = 'mediSignalRAngular';
-   httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-      //,
-      //Authorization: 'my-auth-token'
-    })
-  };
-  setUpMessage(textValue: any) {
-    this.message = textValue;
+  constructor(private store: Store<AppState>) {
+    this.count$ = this.store.pipe(select(selectCount));
+    this.store.pipe(select(selectCount)).subscribe(x => console.log(x));
+    this.store.pipe(select(selectUsername)).subscribe(x => console.log(x));
+    //  this.store.select(state => state.counterState.counter)
+    //this.store.select(x => x.userState.username).subscribe(x => console.log(x));
+    console.log(this.store)
   }
 
-  sendMessage() {
-   
-    this.http.post<any>('https://localhost:7163/api/Message/recieveAndSendMessage', JSON.stringify(this.message), this.httpOptions).subscribe(result => {
-      this.message = "";
-    });
-    /*  , error => console.error(error));*/
+  increment() {
+    this.store.dispatch(increment());
   }
-}
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
+  }
+
+  login() {
+    if (this.loginForm) { 
+      let un = this.loginForm.get('username')!.value;
+      // this ! sign, is so it's not bothering with possible null value error
+      let pw = this.loginForm.get('pw')!.value;
+      // dispatching action with params/metadata
+      this.store.dispatch(loginUser({ username: un, password: pw }));
+    }
+  }
 }

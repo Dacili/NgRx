@@ -1,35 +1,25 @@
-<!--<h1 id="tableLabel">Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<button (click)="increment()" style="color:white; margin-right:20px; background-color:darkgreen">Increment</button>
+<button (click)="decrement()" style="color:white; background-color:indianred">Decrement</button>
+<br />
+<br />
 
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+<div>Current Count: {{ count$ | async }}</div>
+<br />
 
-<table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
-</table>-->
-<!--<app-feed></app-feed>-->
-<p>Write your message here:</p>
-<input type="text" [ngModel]="message" (ngModelChange)="setUpMessage($event)"/>
-<button (click)="sendMessage()" style="margin-left:10px">Send message</button>
-<h2>Messages:</h2>
-<div *ngIf="offers.length>0" class="alert alert-warning" role="alert">
-  <li *ngFor="let item of offers">
-     {{item}}
-  </li>
-</div>
-<!--<router-outlet></router-outlet>-->
+
+
+<button (click)="reset()">Reset Counter</button>
+
+<br />
+<br />
+
+<form [formGroup]="loginForm">
+  <p>If you want to save the counter value, provide your credentials:</p>
+  <input placeholder="username" formControlName="username"/>
+  <br />
+  <input type="text" style="margin-top:5px" placeholder="password" formControlName="pw" />
+  <br /><br />
+  <button (click)="login()" style="background-color:dodgerblue; color:white" >Login</button>
+</form>
+

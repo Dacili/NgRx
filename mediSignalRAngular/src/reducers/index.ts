@@ -44,15 +44,22 @@ userState : {
 export const counterReducer = createReducer(initialState.counterState,
   on(increment, state => ({ ...state, counter: state.counter + 1 })),
   on(decrement, state => ({ ...state, counter: state.counter - 1 })),
-  on(reset, state => ({ ...state, counter: 0 }))
+  on(reset, state => ({ ...state, counter: 0 })),
+  //on(increment, state => { return { ...state, counter: state.counter + 1 } }),
+  //on(decrement, state => { return { ...state, counter: state.counter - 1 } }),
+  //on(reset, state => {
+  //  return { ...state, counter: 0 }
+  //})
 );
 
 // reducer to handle action with props (params/metadata)
 export const performLoginReducer = createReducer(initialState.userState,
-  on(loginUser, (state, props) => ({
+  on(loginUser, (state, props) => {
+    return {
     ...state,
-   username: props.username, password: props.password
-  })));
+      username: props.username, password: props.password
+    };
+  }));
 
 export const reducers: ActionReducerMap<any> = {
   counterReducer: counterReducer,
@@ -61,22 +68,48 @@ export const reducers: ActionReducerMap<any> = {
 };
 
 /*const mediFeature = createFeatureSelector('Medi');*/
-export const selectCounterFeature = createFeatureSelector<CounterState>(
-  mediFeatureKey,
-);
+//export const selectCounterFeature = createFeatureSelector<CounterState>(
+//  mediFeatureKey,
+//);
+
+//export const selectCount = createSelector(
+//  selectCounterFeature,
+//  (state: CounterState) => state.counter
+//);
 
 export const selectCount = createSelector(
-  selectCounterFeature,
+  //selectUser,
+  (state: AppState) => state.counterState,
   (state: CounterState) => state.counter
 );
 
-export const selectUserFeature = createFeatureSelector<UserState>(
-  userFeatureKey,
-);
+//export const selectUserFeature = createFeatureSelector<UserState>(
+//  userFeatureKey,
+//);
 
+//export const selectUsername = createSelector(
+//  selectUserFeature,
+//  (state: UserState) => state.username
+//);
+
+export const selectUser = (state: AppState) => state.userState;
 export const selectUsername = createSelector(
-  selectUserFeature,
+  //selectUser,
+  (state: AppState) => state.userState,
   (state: UserState) => state.username
 );
+
+//const store = createStore(
+//  reducer, /* preloadedState, */
+//  +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//);
+
+//import { createStore, applyMiddleware } from 'redux';
+//import { composeWithDevTools } from 'redux-devtools-extension';
+
+//const store = createStore(reducer, composeWithDevTools(
+//  applyMiddleware(...middleware),
+//  // other store enhancers if any
+//));
 
 export const metaReducers: MetaReducer<any>[] = isDevMode() ? [] : [];

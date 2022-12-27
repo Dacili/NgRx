@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
   }
 
   constructor(private store: Store<AppState>) {
-    this.count$ = this.store.pipe(select(selectCount));
+    this.count$ =// this.store.pipe(select(selectCount));
+    this.store.select(selectCount);
     this.store.pipe(select(selectCount)).subscribe(x => console.log(x));
     this.store.pipe(select(selectUsername)).subscribe(x => console.log(x));
     //  this.store.select(state => state.counterState.counter)

@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { decrement, increment, reset } from '../actions/counter.actions';
-import { loginUser } from '../actions/user.actions';
-import { AppState, CounterState, selectCount, selectUsername } from '../reducers';
+import { decrement, increment, reset } from '../state/actions/counter.actions';
+import { loginUser } from '../state/actions/user.actions';
+import { selectCount } from '../state/selectors/counter.selectors';
+import { selectUsername } from '../state/selectors/user.selectors';
+import { AppState } from '../state/state';
+
 
 @Component({
   selector: 'app-root',

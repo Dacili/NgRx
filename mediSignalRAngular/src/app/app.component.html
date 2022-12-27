@@ -13,12 +13,12 @@
 
 <br />
 <br />
-
+<hr />
 <form [formGroup]="loginForm">
   <p>If you want to save the counter value, provide your credentials:</p>
   <input placeholder="username" formControlName="username"/>
   <br />
-  <input type="text" style="margin-top:5px" placeholder="password" formControlName="pw" />
+  <input type="password" style="margin-top:5px" placeholder="password" formControlName="pw" />
   <br /><br />
   <button (click)="login()" style="background-color:dodgerblue; color:white" >Login</button>
 </form>

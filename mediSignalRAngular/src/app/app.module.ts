@@ -3,16 +3,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SignalRService } from '../services/signal-r.service';
-
 import { AppComponent } from './app.component';
 import { FeedComponent } from './feed/feed.component';
 import { GroupFeedComponent } from './group-feed/group-feed.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { reducers, counterReducer, mediFeatureKey, userFeatureKey, performLoginReducer } from '../reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { performLoginReducer } from '../state/reducers/user.reducer';
+import { counterReducer } from '../state/reducers/counter.reducer';
 
 @NgModule({
   declarations: [
@@ -28,9 +28,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-  /*  StoreDevtoolsModule,*/
-  
-    StoreModule.forRoot({}), // this has to be set up as default
+    StoreModule.forRoot({}), // this has to be set up, if we are using only features
     //StoreModule.forFeature('Medi', reducers),
     //StoreModule.forFeature(mediFeatureKey, counterReducer),
     //StoreModule.forRoot({ counter: counterReducer }),

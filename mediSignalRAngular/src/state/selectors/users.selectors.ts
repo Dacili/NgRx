@@ -10,6 +10,7 @@ import { AppState } from "../state";
 //  (state: UsersState) => state.users
 //);
 
+// USERS AS A FEATURE
 export const usersFeatureKey = 'Users Feature';
 export const selectUsersFeature = createFeatureSelector<UsersState>(
   usersFeatureKey

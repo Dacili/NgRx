@@ -15,7 +15,7 @@
 <br />
 <hr />
 <form [formGroup]="loginForm">
-  <p>If you want to save the counter value, provide your credentials:</p>
+  <p>If you want to create a new user, fill the form:</p>
   <input placeholder="username" formControlName="username" />
   <br />
   <input type="text" style="margin-top:5px" placeholder="surname" formControlName="pw" />
@@ -24,8 +24,8 @@
 </form>
 
 <br />
-<p>All users:</p>
-<div *ngFor='let user of mediUsers$ | async'>
+<p><b>All users:</b></p>
+<div *ngFor='let user of mediUsers$ | async' style="margin-left:20px">
   <p>{{ user.name }} {{ user.surname }}</p>
   <!--<button (click)="delete(user)">Delete</button>-->
 </div>

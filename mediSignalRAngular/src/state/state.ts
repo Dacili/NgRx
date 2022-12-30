@@ -38,5 +38,3 @@ export const initialState: AppState = {
     sizeOfCompany: "small"
   }
 }
-
-// moram ovo spojiti u ng module kao set reducera ?

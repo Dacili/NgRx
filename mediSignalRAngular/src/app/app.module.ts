@@ -15,6 +15,8 @@ import { performLogin_Reducer } from '../state/reducers/user.reducer';
 import { counter_Reducer } from '../state/reducers/counter.reducer';
 import { users_Reducer } from '../state/reducers/users.reducer';
 import { usersFeatureKey } from '../state/selectors/users.selectors';
+import { EffectsModule } from '@ngrx/effects';
+import { UsersEffects } from '../state/effects/users.effects';
 
 @NgModule({
   declarations: [
@@ -31,8 +33,6 @@ import { usersFeatureKey } from '../state/selectors/users.selectors';
     FormsModule,
     ReactiveFormsModule,
     //StoreModule.forRoot({}), // this has to be set up, if we are using only features
-    //StoreModule.forFeature('Medi', reducers),
-    //StoreModule.forFeature(mediFeatureKey, counterReducer),
     //StoreModule.forRoot({ counter: counterReducer }),
     //StoreModule.forFeature(userFeatureKey, performLoginReducer),
     
@@ -52,8 +52,9 @@ import { usersFeatureKey } from '../state/selectors/users.selectors';
       // Same for counterState
       //usersState: usersReducer
     }),
-    StoreModule.forFeature(usersFeatureKey, users_Reducer), //usersReducers
-    
+    StoreModule.forFeature(usersFeatureKey, users_Reducer),
+    //StoreModule.forFeature('Users Feature', users_Reducer),
+    EffectsModule.forRoot([UsersEffects]),
     // IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN
     // DEV TOOLS REDUX WILL NOT WORK!!!
     StoreDevtoolsModule.instrument({

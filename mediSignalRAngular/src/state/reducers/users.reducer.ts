@@ -1,6 +1,6 @@
 import { ActionReducerMap, combineReducers, createReducer, on } from "@ngrx/store";
 import { loginUser_Action } from "../actions/user.actions";
-import { deleteLastUser_Action } from "../actions/users.actions";
+import { deleteLastUser_Action, loadAllUsersSuccess_Action } from "../actions/users.actions";
 import { AppState, initialState, User } from "../state";
 
 export interface UsersState {
@@ -25,6 +25,13 @@ export const users_Reducer = createReducer(initialState.usersState,
     return {
       ...state, users: [...state.users.slice(0, state.users.length - 1)],
       sizeOfCompany: (state.users.length - 1 >= 3) ? "medium" : "small"
+      // same here, -1 for delete
+    }
+  }),
+  on(loadAllUsersSuccess_Action, (state, props): UsersState => {
+    return {
+      ...state, users: props.users,
+      sizeOfCompany: (props.users.length >= 3) ? "medium" : "small"
       // same here, -1 for delete
     }
   })

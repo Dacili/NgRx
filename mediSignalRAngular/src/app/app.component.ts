@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ApisService } from '../services/apis.service';
 import { decrement_Action, increment_Action, reset_Action } from '../state/actions/counter.actions';
 import { loginUser_Action } from '../state/actions/user.actions';
-import { deleteLastUser_Action } from '../state/actions/users.actions';
+import { deleteLastUser_Action, loadAllUsers_Action } from '../state/actions/users.actions';
 import { getCount_Selector } from '../state/selectors/counter.selectors';
 import { getUsername_Selector } from '../state/selectors/user.selectors';
 import { getAllUsers_Selector, getSizeOfCompany_Selector } from '../state/selectors/users.selectors';
@@ -29,7 +30,12 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private apiService: ApisService) {
+    this.store.dispatch(loadAllUsers_Action());
+    this.apiService.getUsers().subscribe(x => {
+      console.log('medi response')
+      console.log(x)
+    });
     this.count$ =// this.store.pipe(select(selectCount));
       this.store.select(getCount_Selector);
     this.mediUsers$ = this.store.select(getAllUsers_Selector); //.subscribe(x => console.log(x));

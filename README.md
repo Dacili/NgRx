@@ -12,4 +12,5 @@ How to run this solution:
 
 
 
+![ngrx gif medi](https://user-images.githubusercontent.com/37112852/210093937-70d5cf15-a55b-4614-a6a8-bd14c1ddea4c.gif)
 

@@ -86,8 +86,28 @@ StoreDevtoolsModule.instrument({
       },
     }),
 ```   
-***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***
-
+***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***   
+For the **effects**, we're getting the data from the online fake api:   
+```   
+getUsers() {
+    // online json fake api 
+    return this.http.get(`https://jsonplaceholder.typicode.com/users`);
+  }
+```     
+Effect:   
+```   
+ @Effect()
+  loadUsers$ = this.actions$
+    .pipe(
+      ofType(loadAllUsers_Action),
+      mergeMap(() => this.apiService.getUsers()
+        .pipe(
+          map((allUsers): any => loadAllUsersSuccess_Action({ users: allUsers }),
+            catchError(error => EMPTY)),
+          // we could also create action for failure response
+            )
+        ));
+```   
 
 
 

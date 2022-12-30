@@ -1,8 +1,10 @@
 # NgRx
 
 **NgRx** (https://ngrx.io/) Store provides reactive state management for Angular apps inspired by Redux. NgRx Store is mainly for managing global state across an entire application.   
-Use selectors for getting the immutable properties from the store, 
-activate (dispatch) actions to trigger some update on state (reducers).
+* Use selectors for getting the immutable properties from the store,   
+* activate (dispatch) actions   
+* to trigger some update on state (reducers),   
+* or to hit the APIs to get or save the data (effects).
 
 Note: this code use the base code from this repo https://github.com/Dacili/Nswag-client-generation-with-Swagger, with additions for NgRx  
 How to run this solution:

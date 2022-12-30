@@ -39,6 +39,8 @@ export const getAllUsers_Selector = createSelector(
   (state: UsersState) => state.users
 );
 ```  
+Notice *createFeatureSelector<**UsersState**>* that we're providing state interface for which one is this feature   
+
 Classic **action, with no params**: 
 ```  
 export const increment_Action = createAction('[Counter] increment');
@@ -51,14 +53,17 @@ export const loginUser_Action = createAction('[User] saveUser', props<{
 }>()
 );
 ```  
-Check also different types of reducers, also without or with params.  
+Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 states, meaning that 3 reducers are enough.   
 In **app.module.ts** add these:   
 ```  
 StoreModule.forRoot({
       userState: performLogin_Reducer,
       counterState: counter_Reducer,
     }),
-StoreModule.forFeature(usersFeatureKey, users_Reducer),
+    
+// here it knows that this feature is actually for usersState, because when we were creating feature we provided that state interface  
+StoreModule.forFeature(usersFeatureKey, users_Reducer), 
+
 EffectsModule.forRoot([UsersEffects]),
 ```   
 This userState, counterState ***MUST BE THE SAME NAME, AS WE HAVE SPECIFIED IN THE MAIN STATE***   

@@ -3,9 +3,9 @@ import { UserState } from "../reducers/user.reducer";
 import { AppState } from "../state";
 
 
-export const selectUser = (state: AppState) => state.userState;
+//export const selectUser = (state: AppState) => state.userState;
 
-export const selectUsername = createSelector(
+export const getUsername_Selector = createSelector(
   //selectUser,
   (state: AppState) => state.userState,
   (state: UserState) => state.username

@@ -16,10 +16,24 @@
 <hr />
 <form [formGroup]="loginForm">
   <p>If you want to save the counter value, provide your credentials:</p>
-  <input placeholder="username" formControlName="username"/>
+  <input placeholder="username" formControlName="username" />
   <br />
-  <input type="password" style="margin-top:5px" placeholder="password" formControlName="pw" />
+  <input type="text" style="margin-top:5px" placeholder="surname" formControlName="pw" />
   <br /><br />
-  <button (click)="login()" style="background-color:dodgerblue; color:white" >Login</button>
+  <button (click)="login()" style="background-color:dodgerblue; color:white">Save</button>
 </form>
+
+<br />
+<p>All users:</p>
+<div *ngFor='let user of mediUsers$ | async'>
+  <p>{{ user.name }} {{ user.surname }}</p>
+  <!--<button (click)="delete(user)">Delete</button>-->
+</div>
+<!--<div> <p>{{ users$ | async }}</p></div>-->
+<!--<div *ngFor='let user of users$ | async'> <p>{{ user }}</p></div>-->
+<button (click)="deleteLastUser()">Delete last user</button>
+<br />
+<br />
+Company size is: {{ sizeOfCompany$ | async }}
+<br />
 

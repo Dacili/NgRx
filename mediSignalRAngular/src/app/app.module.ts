@@ -11,8 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { performLoginReducer } from '../state/reducers/user.reducer';
-import { counterReducer } from '../state/reducers/counter.reducer';
+import { performLogin_Reducer } from '../state/reducers/user.reducer';
+import { counter_Reducer } from '../state/reducers/counter.reducer';
+import { users_Reducer } from '../state/reducers/users.reducer';
+import { usersFeatureKey } from '../state/selectors/users.selectors';
 
 @NgModule({
   declarations: [
@@ -28,13 +30,14 @@ import { counterReducer } from '../state/reducers/counter.reducer';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({}), // this has to be set up, if we are using only features
+    //StoreModule.forRoot({}), // this has to be set up, if we are using only features
     //StoreModule.forFeature('Medi', reducers),
     //StoreModule.forFeature(mediFeatureKey, counterReducer),
     //StoreModule.forRoot({ counter: counterReducer }),
     //StoreModule.forFeature(userFeatureKey, performLoginReducer),
+    
     StoreModule.forRoot({
-      userState: performLoginReducer,
+      userState: performLogin_Reducer,
       // This userState, MUST BE THE SAME NAME, AS WE HAVE SPECIFIED IN THE STATE
       //
       // export interface AppState {
@@ -44,9 +47,12 @@ import { counterReducer } from '../state/reducers/counter.reducer';
       // OTHERWISE, WILL GET ERRORS like:
       // core.mjs:6484 ERROR TypeError: Cannot read properties of undefined (reading 'username')
       // at index.ts: 99: 31
-      counterState: counterReducer
+      counterState: counter_Reducer,
+      //usersState: users_Reducer
       // Same for counterState
+      //usersState: usersReducer
     }),
+    StoreModule.forFeature(usersFeatureKey, users_Reducer), //usersReducers
     
     // IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN
     // DEV TOOLS REDUX WILL NOT WORK!!!

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { decrement, increment, reset } from '../state/actions/counter.actions';
-import { loginUser } from '../state/actions/user.actions';
-import { selectCount } from '../state/selectors/counter.selectors';
-import { selectUsername } from '../state/selectors/user.selectors';
-import { AppState } from '../state/state';
+import { decrement_Action, increment_Action, reset_Action } from '../state/actions/counter.actions';
+import { loginUser_Action } from '../state/actions/user.actions';
+import { deleteLastUser_Action } from '../state/actions/users.actions';
+import { getCount_Selector } from '../state/selectors/counter.selectors';
+import { getUsername_Selector } from '../state/selectors/user.selectors';
+import { getAllUsers_Selector, getSizeOfCompany_Selector } from '../state/selectors/users.selectors';
+import { AppState, User } from '../state/state';
 
 
 @Component({
@@ -16,6 +18,8 @@ import { AppState } from '../state/state';
 })
 export class AppComponent implements OnInit {
   count$: Observable<any>;
+  mediUsers$: Observable<Array<User>>;
+  sizeOfCompany$: Observable<any>;
   loginForm = new FormGroup({
     username: new FormControl(''),
     pw: new FormControl('')
@@ -27,24 +31,28 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.count$ =// this.store.pipe(select(selectCount));
-    this.store.select(selectCount);
-    this.store.pipe(select(selectCount)).subscribe(x => console.log(x));
-    this.store.pipe(select(selectUsername)).subscribe(x => console.log(x));
+      this.store.select(getCount_Selector);
+    this.mediUsers$ = this.store.select(getAllUsers_Selector); //.subscribe(x => console.log(x));
+    this.sizeOfCompany$ = this.store.select(getSizeOfCompany_Selector); //.subscribe(x => console.log(x));
+    this.store.select(getAllUsers_Selector).subscribe(x => console.log(x));
+    console.log(this.mediUsers$)
+    this.store.pipe(select(getCount_Selector)).subscribe(x => console.log(x));
+    this.store.pipe(select(getUsername_Selector)).subscribe(x => console.log(x));
     //  this.store.select(state => state.counterState.counter)
     //this.store.select(x => x.userState.username).subscribe(x => console.log(x));
     console.log(this.store)
   }
 
   increment() {
-    this.store.dispatch(increment());
+    this.store.dispatch(increment_Action());
   }
 
   decrement() {
-    this.store.dispatch(decrement());
+    this.store.dispatch(decrement_Action());
   }
 
   reset() {
-    this.store.dispatch(reset());
+    this.store.dispatch(reset_Action());
   }
 
   login() {
@@ -53,7 +61,15 @@ export class AppComponent implements OnInit {
       // this ! sign, is so it's not bothering with possible null value error
       let pw = this.loginForm.get('pw')!.value;
       // dispatching action with params/metadata
-      this.store.dispatch(loginUser({ username: un, password: pw }));
+      this.store.dispatch(loginUser_Action({ username: un, password: pw }));
     }
+  }
+
+  delete(user: User) {
+    
+  }
+
+  deleteLastUser() {
+    this.store.dispatch(deleteLastUser_Action());
   }
 }

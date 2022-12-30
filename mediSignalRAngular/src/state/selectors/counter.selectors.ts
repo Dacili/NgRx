@@ -3,7 +3,7 @@ import { CounterState } from "../reducers/counter.reducer";
 import { AppState } from "../state";
 
 
-export const selectCount = createSelector(
+export const getCount_Selector = createSelector(
   (state: AppState) => state.counterState,
   (state: CounterState) => state.counter
 );

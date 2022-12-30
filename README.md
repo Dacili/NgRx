@@ -9,7 +9,10 @@
 Note: this code use the base code from this repo https://github.com/Dacili/Nswag-client-generation-with-Swagger, with additions for NgRx  
 How to run this solution:
 - *apiSignalR* is the backend project (.Net Core 6) - Focus in the code was on the frontend app, so the backend is not needed
-- *frontendSignalRAngular* is the frontend project (Angular 13) - run it via cmd, with ng serve
+- *frontendSignalRAngular* is the frontend project (Angular 13) - run it via cmd, with ng serve  
+
+Gif of the test app and functionlities:  
+![ngrx gif medi](https://user-images.githubusercontent.com/37112852/210093937-70d5cf15-a55b-4614-a6a8-bd14c1ddea4c.gif)  
 
 Organization of the files for ngrx:  
 ![image](https://user-images.githubusercontent.com/37112852/210094362-991226c0-1594-4654-a432-8975c100c82c.png)
@@ -125,6 +128,4 @@ Effect:
 
 
 
-Gif of the test app and functionlities:  
-![ngrx gif medi](https://user-images.githubusercontent.com/37112852/210093937-70d5cf15-a55b-4614-a6a8-bd14c1ddea4c.gif)
 

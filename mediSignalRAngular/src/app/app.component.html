@@ -26,8 +26,11 @@
 <br />
 <p><b>All users:</b></p>
 <div *ngFor='let user of mediUsers$ | async' style="margin-left:20px">
-  <p>{{ user.name }} {{ user.surname }}</p>
-  <!--<button (click)="delete(user)">Delete</button>-->
+  <p>
+    {{ user.name }} {{ user.surname }}
+  <button (click)="delete(user)">Delete</button>
+  </p>
+  
 </div>
 <!--<div> <p>{{ users$ | async }}</p></div>-->
 <!--<div *ngFor='let user of users$ | async'> <p>{{ user }}</p></div>-->

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ApisService } from '../services/apis.service';
 import { decrement_Action, increment_Action, reset_Action } from '../state/actions/counter.actions';
 import { loginUser_Action } from '../state/actions/user.actions';
-import { deleteLastUser_Action, loadAllUsers_Action } from '../state/actions/users.actions';
+import { deleteLastUser_Action, deleteUserById_Action, loadAllUsers_Action } from '../state/actions/users.actions';
 import { getCount_Selector } from '../state/selectors/counter.selectors';
 import { getUsername_Selector } from '../state/selectors/user.selectors';
 import { getAllUsers_Selector, getSizeOfCompany_Selector } from '../state/selectors/users.selectors';
@@ -71,8 +71,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  delete(user: User) {
-    
+  delete(user: any) {
+    this.store.dispatch(deleteUserById_Action({ id: user.id }));
   }
 
   deleteLastUser() {

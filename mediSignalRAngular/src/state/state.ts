@@ -21,10 +21,10 @@ let Users
 //  'id': 1, 'name': 'medina', 'surname': 'daciii'
 //}
   //,
-  Users.push({
-    id: 1, name: 'helloo', surname: 'world'
-  }
-)
+//  Users.push({
+//    id: 1, name: 'helloo', surname: 'world'
+//  }
+//)
 
 
 export const initialState: AppState = {

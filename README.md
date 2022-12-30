@@ -53,7 +53,17 @@ export const loginUser_Action = createAction('[User] saveUser', props<{
 }>()
 );
 ```  
-Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 states, meaning that 3 reducers are enough.   
+Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 nested states, meaning that 3 reducers are enough. But if you had AppState with no nested states, only with properties, like:   
+```  
+export interface AppState {
+  counter: number;
+  username: string;
+  surname: string; 
+  users: [];
+}
+```    
+in that case you will have only 1 reducer.   
+
 In **app.module.ts** add these:   
 ```  
 StoreModule.forRoot({

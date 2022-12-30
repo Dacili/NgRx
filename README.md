@@ -12,7 +12,7 @@ How to run this solution:
 Organization of the files for ngrx:  
 ![image](https://user-images.githubusercontent.com/37112852/210094362-991226c0-1594-4654-a432-8975c100c82c.png)
 
-The main state is the AppState. 
+The **main state** is the AppState. 
 ```
 export interface AppState {
   counterState: CounterState;
@@ -20,14 +20,14 @@ export interface AppState {
   usersState: UsersState;
 }
 ```  
-The classic way for selectors is:  
+The classic way for **selectors** is:  
 ```
 export const getCount_Selector = createSelector(
   (state: AppState) => state.counterState,
   (state: CounterState) => state.counter
 );
 ```  
-The feature way for selectors is:  
+The **feature** way for selectors is:  
 ```
 export const usersFeatureKey = 'Users Feature';
 export const selectUsersFeature = createFeatureSelector<UsersState>(
@@ -39,11 +39,11 @@ export const getAllUsers_Selector = createSelector(
   (state: UsersState) => state.users
 );
 ```  
-Classic action, with no params: 
+Classic **action, with no params**: 
 ```  
 export const increment_Action = createAction('[Counter] increment');
 ```   
-Action, with params: 
+**Action, with params**: 
 ```  
 export const loginUser_Action = createAction('[User] saveUser', props<{
   username: string;
@@ -52,7 +52,7 @@ export const loginUser_Action = createAction('[User] saveUser', props<{
 );
 ```  
 Check also different types of reducers, also without or with params.  
-In app.module.ts:   
+In **app.module.ts** add these:   
 ```  
 StoreModule.forRoot({
       userState: performLogin_Reducer,
@@ -60,9 +60,28 @@ StoreModule.forRoot({
     }),
 StoreModule.forFeature(usersFeatureKey, users_Reducer),
 EffectsModule.forRoot([UsersEffects]),
+```   
+This userState, counterState ***MUST BE THE SAME NAME, AS WE HAVE SPECIFIED IN THE MAIN STATE***   
+OTHERWISE, WILL GET ERRORS like:  
+      // core.mjs:6484 ERROR TypeError: Cannot read properties of undefined (reading 'username') at index.ts: 99: 31    
+      
+For **redux dev tools** chrome extension, import these lines in app.module.ts:  
 ```  
-
-
+StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,// Retains last 25 states
+      features: {
+        pause: true, // start/pause recording of dispatched actions
+        lock: true, // lock/unlock dispatching actions and side effects    
+        jump: true, // jump back and forth (time travelling)
+        skip: true, // skip (cancel) actions
+        reorder: true, // drag and drop actions in the history list 
+        dispatch: true, // dispatch custom actions or action creators
+        test: true // generate tests for the selected actions
+      },
+    }),
+```   
+***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***
 
 
 

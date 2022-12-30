@@ -14,6 +14,15 @@ How to run this solution:
 Gif of the test app and functionlities:  
 ![ngrx gif medi](https://user-images.githubusercontent.com/37112852/210093937-70d5cf15-a55b-4614-a6a8-bd14c1ddea4c.gif)  
 
+You will need these pkgs:  
+```  
+ "@ngrx/effects": "^13.0.0",
+ "@ngrx/store": "^13.0.0",
+ "@ngrx/store-devtools": "^13.0.0",
+```   
+
+**Note:** Make sure that you have same version of these, as you have the angular app ("@angular/core": "~13.0.0"), so you don't get diff kind of errors.  
+
 Organization of the files for ngrx:  
 ![image](https://user-images.githubusercontent.com/37112852/210094362-991226c0-1594-4654-a432-8975c100c82c.png)
 

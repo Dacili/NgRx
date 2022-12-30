@@ -1,4 +1,4 @@
-import { createAction } from "@ngrx/store";
+import { createAction } from '@ngrx/store';
 
 export const increment_Action = createAction('[Counter] increment');
 export const decrement_Action = createAction('[Counter] decrement');

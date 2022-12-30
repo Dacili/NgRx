@@ -1,13 +1,17 @@
-
-<button (click)="increment()" style="color:white; margin-right:20px; background-color:darkgreen">Increment</button>
-<button (click)="decrement()" style="color:white; background-color:indianred">Decrement</button>
+<button
+  (click)="increment()"
+  style="color: white; margin-right: 20px; background-color: darkgreen"
+>
+  Increment
+</button>
+<button (click)="decrement()" style="color: white; background-color: indianred">
+  Decrement
+</button>
 <br />
 <br />
 
 <div>Current Count: {{ count$ | async }}</div>
 <br />
-
-
 
 <button (click)="reset()">Reset Counter</button>
 
@@ -18,19 +22,25 @@
   <p>If you want to create a new user, fill the form:</p>
   <input placeholder="username" formControlName="username" />
   <br />
-  <input type="text" style="margin-top:5px" placeholder="surname" formControlName="pw" />
+  <input
+    type="text"
+    style="margin-top: 5px"
+    placeholder="surname"
+    formControlName="pw"
+  />
   <br /><br />
-  <button (click)="login()" style="background-color:dodgerblue; color:white">Save</button>
+  <button (click)="login()" style="background-color: dodgerblue; color: white">
+    Save
+  </button>
 </form>
 
 <br />
 <p><b>All users:</b></p>
-<div *ngFor='let user of mediUsers$ | async' style="margin-left:20px">
+<div *ngFor="let user of mediUsers$ | async" style="margin-left: 20px">
   <p>
     {{ user.name }} {{ user.surname }}
-  <button (click)="delete(user)">Delete</button>
+    <button (click)="delete(user)">Delete</button>
   </p>
-  
 </div>
 <!--<div> <p>{{ users$ | async }}</p></div>-->
 <!--<div *ngFor='let user of users$ | async'> <p>{{ user }}</p></div>-->
@@ -39,4 +49,3 @@
 <br />
 Company size is: {{ sizeOfCompany$ | async }}
 <br />
-

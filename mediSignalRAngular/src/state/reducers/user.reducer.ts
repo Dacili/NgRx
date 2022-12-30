@@ -1,6 +1,6 @@
-import { createReducer, on } from "@ngrx/store";
-import { loginUser_Action } from "../actions/user.actions";
-import { initialState } from "../state";
+import { createReducer, on } from '@ngrx/store';
+import { loginUser_Action } from '../actions/user.actions';
+import { initialState } from '../state';
 
 export interface UserState {
   username: string;
@@ -8,10 +8,13 @@ export interface UserState {
 }
 
 // reducer to handle action with props (params/metadata)
-export const performLogin_Reducer = createReducer(initialState.userState,
+export const performLogin_Reducer = createReducer(
+  initialState.userState,
   on(loginUser_Action, (state, props) => {
     return {
       ...state,
-      username: props.username, password: props.password
+      username: props.username,
+      password: props.password,
     };
-  }));
+  })
+);

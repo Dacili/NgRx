@@ -1,47 +1,69 @@
-import { ActionReducerMap, combineReducers, createReducer, on } from "@ngrx/store";
-import { loginUser_Action } from "../actions/user.actions";
-import { deleteLastUser_Action, deleteUserById_Action, loadAllUsersSuccess_Action } from "../actions/users.actions";
-import { AppState, initialState, User } from "../state";
+import {
+  ActionReducerMap,
+  combineReducers,
+  createReducer,
+  on,
+} from '@ngrx/store';
+import { loginUser_Action } from '../actions/user.actions';
+import {
+  deleteLastUser_Action,
+  deleteUserById_Action,
+  loadAllUsersSuccess_Action,
+} from '../actions/users.actions';
+import { AppState, initialState, User } from '../state';
 
 export interface UsersState {
-  users: any,
-  sizeOfCompany: any
+  users: any;
+  sizeOfCompany: any;
 }
 
-export const users_Reducer = createReducer(initialState.usersState,
+export const users_Reducer = createReducer(
+  initialState.usersState,
   // adding new user
   on(loginUser_Action, (state, props): UsersState => {
     return {
       ...state,
-      users: [...state.users,
-      { id: (state.users.length == 0) ? 1 : state.users[state.users.length - 1].id + 1, name: props.username, surname: props.password }],
-      sizeOfCompany: (state.users.length + 1 >= 3) ? "medium" : "small"
+      users: [
+        ...state.users,
+        {
+          id:
+            state.users.length == 0
+              ? 1
+              : state.users[state.users.length - 1].id + 1,
+          name: props.username,
+          surname: props.password,
+        },
+      ],
+      sizeOfCompany: state.users.length + 1 >= 3 ? 'medium' : 'small',
       // length of state.users, is not yet update, so we have to add +1,
       // to count also newly added
-    }
+    };
   }),
   // deletes last user
   on(deleteLastUser_Action, (state): UsersState => {
     return {
-      ...state, users: [...state.users.slice(0, state.users.length - 1)],
-      sizeOfCompany: (state.users.length - 1 >= 3) ? "medium" : "small"
+      ...state,
+      users: [...state.users.slice(0, state.users.length - 1)],
+      sizeOfCompany: state.users.length - 1 >= 3 ? 'medium' : 'small',
       // same here, -1 for delete
-    }
+    };
   }),
   // deletes user by id
   on(deleteUserById_Action, (state, props): UsersState => {
     return {
-      ...state, users: state.users.filter((user: User): any =>  user.id != props.id),
-      sizeOfCompany: (state.users.length - 1 >= 3) ? "medium" : "small"
+      ...state,
+      users: state.users.filter((user: User): any => user.id != props.id),
+      sizeOfCompany: state.users.length - 1 >= 3 ? 'medium' : 'small',
       // same here, -1 for delete
-    }
+    };
   }),
   on(loadAllUsersSuccess_Action, (state, props): UsersState => {
     return {
-      ...state, users: props.users,
-      sizeOfCompany: (props.users.length >= 3) ? "medium" : "small"
+      ...state,
+      users: props.users,
+      sizeOfCompany: props.users.length >= 3 ? 'medium' : 'small',
       // same here, -1 for delete
-    }
+    };
   })
 );
 
@@ -73,6 +95,3 @@ export const users_Reducer = createReducer(initialState.usersState,
 //  //,
 //  //addUserReducer: addUserReducer
 //};
-
-
-

@@ -20,8 +20,24 @@ You will need these pkgs:
  "@ngrx/store": "^13.0.0",
  "@ngrx/store-devtools": "^13.0.0",
 ```   
-
 **Note:** Make sure that you have same version of these, as you have the angular app ("@angular/core": "~13.0.0"), so you don't get diff kind of errors.  
+  
+For **scaffolding** the code with cmd, install this pkg:   
+```  
+npm i @ngrx/schematics@13.0.0     
+```  
+and then 
+```     
+ng add @ngrx/schematics
+```  
+Without that, you will get error like:   ![image](https://user-images.githubusercontent.com/37112852/210547326-93518860-357f-4b01-ac7d-f7f6549dae82.png)
+  
+If you connected well, you will be able to run:  
+``` 
+ng generate action state/actions/Medii 
+``` 
+It will generate the code for needed action for you.   
+
 
 Organization of the files for ngrx:  
 ![image](https://user-images.githubusercontent.com/37112852/210094362-991226c0-1594-4654-a432-8975c100c82c.png)

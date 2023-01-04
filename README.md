@@ -75,7 +75,7 @@ Classic **action, with no params**:
 ```  
 export const increment_Action = createAction('[Counter] increment');
 ```   
-**Action, with params**: 
+**Action, with params, with props**: 
 ```  
 export const loginUser_Action = createAction('[User] saveUser', props<{
   username: string;
@@ -83,6 +83,14 @@ export const loginUser_Action = createAction('[User] saveUser', props<{
 }>()
 );
 ```  
+**Action, with params, without props**: 
+```  
+export const deleteUserById_Action = createAction(
+  '[Users] delete user by id',
+  (id: number) => ({ id })
+);
+```  
+
 Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 nested states, meaning that 3 reducers are optimal. But if you had AppState with no nested states, only with properties, like:   
 ```  
 export interface AppState {

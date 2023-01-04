@@ -49,14 +49,15 @@ export const users_Reducer = createReducer(
     };
   }),
   // deletes user by id
-  on(deleteUserById_Action, (state, props): UsersState => {
-    return {
+  on(deleteUserById_Action,
+    // param without props
+    (state, { id }) => ({
+    //(state, props): UsersState
       ...state,
-      users: state.users.filter((user: User): any => user.id != props.id),
+      users: state.users.filter((user: User): any => user.id != id),
       sizeOfCompany: state.users.length - 1 >= 3 ? 'medium' : 'small',
       // same here, -1 for delete
-    };
-  }),
+  })),
   on(loadAllUsersSuccess_Action, (state, props): UsersState => {
     return {
       ...state,

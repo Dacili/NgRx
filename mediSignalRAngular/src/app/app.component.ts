@@ -81,7 +81,8 @@ export class AppComponent implements OnInit {
   }
 
   delete(user: any) {
-    this.store.dispatch(deleteUserById_Action({ id: user.id }));
+    // if we're not using props in action, then we're not sending param in {} curly brackets
+    this.store.dispatch(deleteUserById_Action(user.id));
   }
 
   deleteLastUser() {

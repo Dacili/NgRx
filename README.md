@@ -36,7 +36,7 @@ If you connected well, you will be able to run:
 ``` 
 ng generate action state/actions/Medii 
 ``` 
-It will generate the code for needed action for you.   
+It will generate the code for new action.   
 
 
 Organization of the files for ngrx:  

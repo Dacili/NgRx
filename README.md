@@ -36,7 +36,7 @@ If you connected well, you will be able to run:
 ``` 
 ng generate action state/actions/Medii 
 ``` 
-It will generate the code for needed action for you.   
+It will generate the code for new action.   
 
 
 Organization of the files for ngrx:  
@@ -83,7 +83,7 @@ export const loginUser_Action = createAction('[User] saveUser', props<{
 }>()
 );
 ```  
-Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 nested states, meaning that 3 reducers are optimal, where 1 is minimum. But if you had AppState with no nested states, only with properties, like:   
+Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 nested states, meaning that 3 reducers are optimal. But if you had AppState with no nested states, only with properties, like:   
 ```  
 export interface AppState {
   counter: number;
@@ -92,7 +92,7 @@ export interface AppState {
   users: [];
 }
 ```    
-in that case you will have only 1 reducer.   
+in that case you will have only 1 reducer (check for ex. the users.reducer.ts).   
 
 In **app.module.ts** add these:   
 ```  

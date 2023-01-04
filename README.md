@@ -30,6 +30,10 @@ and then
 ```     
 ng add @ngrx/schematics
 ```  
+or with this cmd:    
+```     
+ng config cli.defaultCollection @ngrx/schematics
+```  
 Without that, you will get error like:   ![image](https://user-images.githubusercontent.com/37112852/210547326-93518860-357f-4b01-ac7d-f7f6549dae82.png)
   
 If you connected well, you will be able to run:  

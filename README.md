@@ -121,7 +121,22 @@ EffectsModule.forRoot([UsersEffects]),
 This userState, counterState ***MUST BE THE SAME NAME, AS WE HAVE SPECIFIED IN THE MAIN STATE***   
 OTHERWISE, WILL GET ERRORS like:  
       // core.mjs:6484 ERROR TypeError: Cannot read properties of undefined (reading 'username') at index.ts: 99: 31    
-      
+
+***If you want to do only 1 import in app module, then create this:***  
+```  
+in some file do this:   
+export const main_Reducer: ActionReducerMap<AppState> = {
+  counterState: counter_Reducer,
+  userState: performLogin_Reducer,
+  usersState: users_Reducer
+};
+
+and in app.module.ts:  
+StoreModule.forRoot(main_Reducer)
+
+```    
+You will not need feature for users.   
+
 For **redux dev tools** chrome extension, import these lines in app.module.ts:  
 ```  
 StoreDevtoolsModule.instrument({

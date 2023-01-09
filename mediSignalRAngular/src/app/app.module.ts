@@ -17,6 +17,7 @@ import { users_Reducer } from '../state/reducers/users.reducer';
 import { usersFeatureKey } from '../state/selectors/users.selectors';
 import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects } from '../state/effects/users.effects';
+import { main_Reducer } from '../state/reducers/main.reducer';
 
 @NgModule({
   declarations: [AppComponent, FeedComponent, GroupFeedComponent],
@@ -47,6 +48,9 @@ import { UsersEffects } from '../state/effects/users.effects';
       // Same for counterState
       //usersState: usersReducer
     }),
+    // IF WE WANT TO HAVE ONLY ONE IMPORT HERE OF REDUCERS
+    // THEN USE BELOW LINE, AND CHECK main.reducer.ts
+    //StoreModule.forRoot(main_Reducer),
     StoreModule.forFeature(usersFeatureKey, users_Reducer),
     //StoreModule.forFeature('Users Feature', users_Reducer),
     EffectsModule.forRoot([UsersEffects]),

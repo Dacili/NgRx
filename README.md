@@ -46,6 +46,7 @@ It will generate the code for new action.
 Organization of the files for ngrx:  
 ![image](https://user-images.githubusercontent.com/37112852/210094362-991226c0-1594-4654-a432-8975c100c82c.png)
 
+The UI is in *app.component.html*, and the logic is in *app.component.ts.*  
 The **main state** is the AppState. 
 ```
 export interface AppState {
@@ -174,7 +175,24 @@ Effect:
           // we could also create action for failure response
             )
         ));
-```   
+```
+
+The logic in **app.component.ts** contains code that:  
+- triggers action 
+```
+this.store.dispatch(increment_Action());
+this.store.dispatch(loadAllUsers_Action());
+...
+this.store.dispatch(loginUser_Action({ username: un, password: pw }));
+...
+this.store.dispatch(deleteUserById_Action(user.id));
+```
+- selectors  
+```
+this.count$ = this.store.select(getCount_Selector); // this is subject, we can use it in HTML such as  <b>{{ (user$ | async)?.name }}</b>
+this.store.select(getAllUsers_Selector).subscribe((x) => console.log(x)); // this is subscription object, with real value
+this.store.pipe(select(getCount_Selector)).subscribe((x) => console.log(x)); // same as previous, but a bit longer
+```
 
 
 

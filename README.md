@@ -193,7 +193,8 @@ this.count$ = this.store.select(getCount_Selector); // this is subject, we can u
 this.store.select(getAllUsers_Selector).subscribe((x) => console.log(x)); // this is subscription object, with real value
 this.store.pipe(select(getCount_Selector)).subscribe((x) => console.log(x)); // same as previous, but a bit longer
 ```
-
+*If we call selector -> value is read from state, read-only  
+If we call action -> value is getting through reducer, depending on the reducer logic, it's a possible change of value in the state*
 
 
 

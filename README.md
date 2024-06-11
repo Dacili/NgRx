@@ -225,7 +225,8 @@ completeSignupSuccess$ = createEffect(
 
 ### How to make sure we trigger some code, when action is done?
 If we have some **guard.ts**, and we want to check some value in the state (sapphireStatus), but probably **action is in progress**, and *we cannot know when it's done*.  
-So in that case, we're setting sapphireStatus to some **initial value that cannot be returned by API**, in my case I set it as *null*. And then used the filter operator to filter all results if they are null.    
+So in that case, we're setting sapphireStatus to some **initial value that cannot be returned by API**, in my case I set it as *null*. And then used the filter operator to filter all results if they are null.   
+**filter((sapphireStatus) => sapphireStatus != null)**
 ```
 canActivate(
   route: ActivatedRouteSnapshot,

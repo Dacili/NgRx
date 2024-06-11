@@ -162,7 +162,13 @@ getUsers() {
     return this.http.get(`https://jsonplaceholder.typicode.com/users`);
   }
 ```     
-Effect:   
+make sure you added in app.module in imports:  
+```   
+EffectsModule.forRoot([UsersEffects]),
+```  
+Effect file:   
+
+ 
 ```   
  @Effect()
   loadUsers$ = this.actions$

@@ -155,6 +155,29 @@ StoreDevtoolsModule.instrument({
     }),
 ```   
 ***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***   
+-----------------------------
+### How to dispatch actions and call selectors in the component?
+The logic in **app.component.ts** contains code that:  
+- triggers action 
+```
+this.store.dispatch(increment_Action());
+this.store.dispatch(loadAllUsers_Action());
+...
+this.store.dispatch(loginUser_Action({ username: un, password: pw }));
+...
+this.store.dispatch(deleteUserById_Action(user.id));
+```
+- selectors  
+```
+this.count$ = this.store.select(getCount_Selector); // this is subject, we can use it in HTML such as  <b>{{ (user$ | async)?.name }}</b>
+this.store.select(getAllUsers_Selector).subscribe((x) => console.log(x)); // this is subscription object, with real value
+this.store.pipe(select(getCount_Selector)).subscribe((x) => console.log(x)); // same as previous, but a bit longer
+```
+*If we call selector -> value is read from state, read-only  
+If we call action -> value is getting through reducer, depending on the reducer logic, it's a possible change of value in the state*
+
+-----------------------------
+### Effects
 For the **effects**, we're getting the data from the online fake api:   
 ```   
 getUsers() {
@@ -182,27 +205,45 @@ Effect file:
             )
         ));
 ```
+#### Effect without dispatching action
+We need to use  **{ dispatch: false }** 
+```
+completeSignupSuccess$ = createEffect(
+  () => {
+    return this.actions$.pipe(
+      ofType(completeSignupSuccess),
+      tap(() => {
+        localStorage.removeItem('account');
+        localStorage.removeItem('emailToken');
+        this.router.navigate(['/account/login']);
+      })
+    );
+  },
+  { dispatch: false }
+);
+```
 
-The logic in **app.component.ts** contains code that:  
-- triggers action 
+### How to make sure we trigger some code, when action is done?
+If we have some **guard.ts**, and we want to check some value in the state (sapphireStatus), but probably **action is in progress**, and *we cannot know when it's done*.  
+So in that case, we're setting sapphireStatus to some **initial value that cannot be returned by API**, in my case I set it as *null*. And then used the filter operator to filter all results if they are null.    
 ```
-this.store.dispatch(increment_Action());
-this.store.dispatch(loadAllUsers_Action());
-...
-this.store.dispatch(loginUser_Action({ username: un, password: pw }));
-...
-this.store.dispatch(deleteUserById_Action(user.id));
+canActivate(
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  let path = route.url[0].path;
+  return this.store.select(selectSaphireStatus).pipe(
+    filter((sapphireStatus) => sapphireStatus != null), //This is part where we're filtering/ignoring the initial value
+    map((sapphireStatus) => {
+      switch (path) {
+        case 'dashboard':
+          if (sapphireStatus == SapphireStatusEnum.Active) return true;
+          return false;
+      }
+    })
+  );
+}
 ```
-- selectors  
-```
-this.count$ = this.store.select(getCount_Selector); // this is subject, we can use it in HTML such as  <b>{{ (user$ | async)?.name }}</b>
-this.store.select(getAllUsers_Selector).subscribe((x) => console.log(x)); // this is subscription object, with real value
-this.store.pipe(select(getCount_Selector)).subscribe((x) => console.log(x)); // same as previous, but a bit longer
-```
-*If we call selector -> value is read from state, read-only  
-If we call action -> value is getting through reducer, depending on the reducer logic, it's a possible change of value in the state*
-
-
 
 
 

@@ -232,6 +232,7 @@ canActivate(
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  this.store.dispatch(getSapphireServices());
   let path = route.url[0].path;
   return this.store.select(selectSaphireStatus).pipe(
     filter((sapphireStatus) => sapphireStatus != null), //This is part where we're filtering/ignoring the initial value

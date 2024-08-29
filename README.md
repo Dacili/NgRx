@@ -20,7 +20,7 @@ You will need these pkgs:
  "@ngrx/store": "^13.0.0",
  "@ngrx/store-devtools": "^13.0.0",
 ```   
-**Note:** Make sure that you have same version of these, as you have the angular app ("@angular/core": "~13.0.0"), so you don't get diff kind of errors.  
+> **Note:** Make sure that you have same version of these, as you have the angular app ("@angular/core": "~13.0.0"), so you don't get diff kind of errors.  
   
 For **scaffolding** the code with cmd, install this pkg:   
 ```  
@@ -96,7 +96,9 @@ export const deleteUserById_Action = createAction(
 );
 ```  
 
-Check also different types of reducers, also without or with params.   ***Notice that you will need ONLY ONE REDUCER per state!!!***  So in the main AppState, you have 3 nested states, meaning that 3 reducers are optimal. But if you had AppState with no nested states, only with properties, like:   
+Check also different types of reducers, also without or with params.
+> ***Notice that you will need ONLY ONE REDUCER per state!!!***
+ So in the main AppState, you have 3 nested states, meaning that 3 reducers are optimal. But if you had AppState with no nested states, only with properties, like:   
 ```  
 export interface AppState {
   counter: number;
@@ -154,7 +156,7 @@ StoreDevtoolsModule.instrument({
       },
     }),
 ```   
-***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***   
+>  ***IF WE PUT THIS BEFORE STORE MODULE REGISTRATIONS, THEN DEV TOOLS REDUX WILL NOT WORK!!!***   
 -----------------------------
 ### How to dispatch actions and call selectors in the component?
 The logic in **app.component.ts** contains code that:  
@@ -222,10 +224,94 @@ completeSignupSuccess$ = createEffect(
   { dispatch: false }
 );
 ```
+#### Accessing action param in the effect
+If your action looks like this (notice that parameter is called mediParam)
+```
+    export const getAvatars = createAction('[Dashboard API] Get Avatars',
+      props<{mediParam: any;}>()
+    );
+```  
+Then in effect, you will access it like this:  
+```
+ action.mediParam
+```
+Ngrx effect:  
+```
+getAvatars1$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(actions.getAvatars),
+      concatLatestFrom(() => [this.store.select(selectState)]),
+      switchMap(([action, state]) => {
+        let param = action.mediParam;
+        return this.bgcService.getAvatars(param).pipe(
+          map((data: any) => {
+            let avatars = JSON.parse(JSON.stringify(data.body));
+            return actions.getAvatarsSuccess({ data: avatars});
+          })
+        );
+      }))
+  });
+```
+#### Call action from effect or reducer?
+You should not do that, it's an **antipattern.** If you dispatch some action from effect before you return ```success action```, then the state will not be yet updated, so if you try to gather state info, it will not have the latest data in it. The same for reducers, reducers should not have side effects.
+
+So what you should do instead?  
+You will make an effect, that will be listening to success action.    
+Once the effect is done, it will trigger a success action, and then we listen for that action.  
+> Take a look on **getDashboardWithEmployeesSuccess**, once the effect **getDashboardWithEmployees$** is done, it triggers success action **getDashboardWithEmployeesSuccess**, and then 
+we created effect **getAvatars$**, and listen for that action.  
+```
+ getDashboardWithEmployees$ = createEffect(() => {
+   return this.actions$.pipe(
+     ofType(actions.getDashboardWithEmployees),
+     concatLatestFrom(() => [this.store.select(selectState)]),
+     switchMap(([action, state]) => {
+       return this.bgcService.getBackgroundCheckDashboard(SubjectTypeEnum.Employee).pipe(
+         map((data: any) => {
+           let dashboardData = JSON.parse(JSON.stringify(data.body));
+           this.addInitialsAndAvatarColors(dashboardData);
+           this.getColorForUserAvatar(dashboardData);
+           return actions.getDashboardWithEmployeesSuccess({ data: dashboardData });
+         })
+       );
+     })
+   );
+ });
+
+  getAvatars$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(actions.getDashboardWithEmployeesSuccess),
+      concatLatestFrom(() => [this.store.select(selectState)]),
+      switchMap(([action, state]) => {
+        let employeeIds: number[] = state.dashboardEmployees.map((bgc) => {
+          if (!!bgc.EmployeeID)
+            return bgc.EmployeeID
+        })
+        console.log(employeeIds)
+       return this.bgcService.getAvatars(employeeIds).pipe(
+          map((data: any) => {
+            let dataParsed = JSON.parse(JSON.stringify(data.body));
+            let dashboardData = JSON.parse(JSON.stringify(state.dashboardEmployees)); // this.store.select(selectDashboardEmployees);
+            dataParsed.forEach(employee => {
+              debugger
+              let existingUserIndex = dashboardData.findIndex(user => user.EmployeeID == employee.EmployeeID);
+              if (existingUserIndex != -1) {
+                dashboardData[existingUserIndex].Base64Avatar = 'data:image/png;base64, '+employee.Avatar;
+              }
+            })
+            return actions.getAvatarsSuccess({ data: dashboardData });
+          })
+        );
+      })
+    );
+  });
+```
 
 ### How to make sure we trigger some code, when action is done?
 If we have some **guard.ts**, and we want to check some value in the state (sapphireStatus), but probably **action is in progress**, and *we cannot know when it's done*.  
-So in that case, we're setting sapphireStatus to some **initial value that cannot be returned by API**, in my case I set it as *null*. And then used the filter operator to filter all results if they are null.   
+So in that case, we're setting sapphireStatus to some **initial value that cannot be returned by API**, in my case I set it as *null*. And then used the filter operator to filter all results if they are null.  
+
+
 **filter((sapphireStatus) => sapphireStatus != null)**
 ```
 canActivate(

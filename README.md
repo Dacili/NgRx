@@ -252,8 +252,13 @@ getAvatars1$ = createEffect(() => {
       }))
   });
 ```
+#### Returning multiple actions from effect
+The effect should **NOT** return multiple actions.  (https://github.com/timdeschryver/eslint-plugin-ngrx/blob/main/docs/rules/no-multiple-actions-in-effects.md)
 #### Call action from effect or reducer?
-You should not do that, it's an **antipattern.** If you dispatch some action from effect before you return ```success action```, then the state will not be yet updated, so if you try to gather state info, it will not have the latest data in it. The same for reducers, reducers should not have side effects.
+You should not do that, it's an **antipattern.**   
+- no-dispatch-in-effects - Effect should not call store.dispatch. (https://github.com/timdeschryver/eslint-plugin-ngrx/blob/main/docs/rules/no-dispatch-in-effects.md)
+   
+If you dispatch some action from effect before you return ```success action```, then the state will not be yet updated, so if you try to gather state info, it will not have the latest data in it. The same for reducers, reducers should not have side effects.
 
 So what you should do instead?  
 You will make an effect, that will be listening to success action.    

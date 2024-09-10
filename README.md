@@ -171,10 +171,30 @@ this.store.dispatch(deleteUserById_Action(user.id));
 ```
 - selectors  
 ```
-this.count$ = this.store.select(getCount_Selector); // this is subject, we can use it in HTML such as  <b>{{ (user$ | async)?.name }}</b>
+this.count$ = this.store.select(getCount_Selector); // this is subject, we can use it in HTML such as
+// HTML file
+  <b>{{ count$ | async }}</b>  
+ <b>{{ (count$ | async)?.someProperty }}</b>
+
+// ts file
 this.store.select(getAllUsers_Selector).subscribe((x) => console.log(x)); // this is subscription object, with real value
 this.store.pipe(select(getCount_Selector)).subscribe((x) => console.log(x)); // same as previous, but a bit longer
 ```
+
+Using **async pipe** on observable<Object> in HTML and **bind it to a local variable in HTML**  
+  
+```
+<div *ngIf="user$ | async; let user">
+  <h3> {{user.name}} </h3>
+</div>
+```  
+
+```
+<div *ngIf="(user$ | async) || {}; let user">
+  <h3> {{user?.name}} </h3>
+</div>
+```
+
 *If we call selector -> value is read from state, read-only  
 If we call action -> value is getting through reducer, depending on the reducer logic, it's a possible change of value in the state*
 

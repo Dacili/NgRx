@@ -190,13 +190,18 @@ Using **async pipe** on observable<Object> in HTML and **bind it to a local vari
   <h3> {{user?.name}} </h3>
 </div>
 ```
-If you contain *ngIf with more statements, you can omit that statement with ng-container, get variable, and then use it below where needed:  
+If you contain *ngIf with more statements, you can omit that statement with ng-container, get a variable, and then use it below where needed (for more readability):  
 ```
  <ng-container *ngIf="employeesPendingCounter$ | async;let counter;">
    <span *ngIf="selectedSubjectType === subjectTypeEnum.Employee && counter != 0" fcSuffix class="badge">
      {{counter}}
    </span>
  </ng-container>
+
+// or this works the same (less readable)
+ <span *ngIf="selectedSubjectType === subjectTypeEnum.Employee && employeesPendingCounter$ | async;let counter; " fcSuffix class="badge">
+   {{counter}}
+ </span>
 ```  
 b) using **subscribe** (with(out) pipe)  
 ```

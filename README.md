@@ -6,6 +6,10 @@
 * to trigger some update on state (reducers),   
 * or to hit the APIs to get or save the data (effects).
 
+ ![image](https://github.com/user-attachments/assets/6c351fcf-4352-4c98-bf73-2d7cf7bcac05)  
+
+---
+
 Note: this code use the base code from this repo https://github.com/Dacili/Nswag-client-generation-with-Swagger, with additions for NgRx  
 How to run this solution:
 - *apiSignalR* is the backend project (.Net Core 6) - Focus in the code was on the frontend app, so the backend is not needed
